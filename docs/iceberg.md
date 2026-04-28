@@ -29,8 +29,8 @@ Exclusão: Remoção do registro do jogo 'FIFA 23'.
 UPDATE local.db_projeto.tabela_jogos 
 SET genero = 'Construção' 
 WHERE id = 3;
-
 ```
+
 ## 3. Gestão de Metadados e Auditoria
 O grande diferencial do Iceberg é a forma como ele gerencia o estado da tabela através de Snapshots.
 
@@ -40,11 +40,12 @@ Cada operação de escrita gera um novo snapshot_id. Isso permite auditoria tota
 ```SQL
 SELECT committed_at, snapshot_id, operation 
 FROM local.db_projeto.tabela_jogos.snapshots;
-Otimização e Limpeza (Maintenance)
-Diferente do Delta, no Iceberg é comum realizarmos a manutenção de snapshots e a expiração de arquivos antigos para economizar espaço e melhorar a performance de leitura:
 ```
 
+Otimização e Limpeza (Maintenance)
+Diferente do Delta, no Iceberg é comum realizarmos a manutenção de snapshots e a expiração de arquivos antigos para economizar espaço e melhorar a performance de leitura:
 Python
+
 # Exemplo de expiração de snapshots antigos via PySpark
 spark.sql("CALL local.system.expire_snapshots('db_projeto.tabela_jogos')")
 

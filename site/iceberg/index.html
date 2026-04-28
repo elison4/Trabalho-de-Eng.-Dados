@@ -470,20 +470,21 @@ USING iceberg;
 <p>Inserção: Carga inicial de títulos (FIFA, God of War, Minecraft).</p>
 <p>Atualização: Correção do gênero do jogo 'Minecraft' para 'Construção'.</p>
 <p>Exclusão: Remoção do registro do jogo 'FIFA 23'.</p>
-<p>SQL
--- Exemplo de atualização de registro único
+<pre><code class="language-SQL">-- Exemplo de atualização de registro único
 UPDATE local.db_projeto.tabela_jogos 
 SET genero = 'Construção' 
-WHERE id = 3;</p>
+WHERE id = 3;
+
+</code></pre>
 <h2 id="3-gestao-de-metadados-e-auditoria">3. Gestão de Metadados e Auditoria</h2>
 <p>O grande diferencial do Iceberg é a forma como ele gerencia o estado da tabela através de Snapshots.</p>
 <p>Inspeção de Snapshots
 Cada operação de escrita gera um novo snapshot_id. Isso permite auditoria total:</p>
-<p>SQL
-SELECT committed_at, snapshot_id, operation 
+<pre><code class="language-SQL">SELECT committed_at, snapshot_id, operation 
 FROM local.db_projeto.tabela_jogos.snapshots;
 Otimização e Limpeza (Maintenance)
-Diferente do Delta, no Iceberg é comum realizarmos a manutenção de snapshots e a expiração de arquivos antigos para economizar espaço e melhorar a performance de leitura:```</p>
+Diferente do Delta, no Iceberg é comum realizarmos a manutenção de snapshots e a expiração de arquivos antigos para economizar espaço e melhorar a performance de leitura:
+</code></pre>
 <p>Python</p>
 <h1 id="exemplo-de-expiracao-de-snapshots-antigos-via-pyspark">Exemplo de expiração de snapshots antigos via PySpark</h1>
 <p>spark.sql("CALL local.system.expire_snapshots('db_projeto.tabela_jogos')")</p>
