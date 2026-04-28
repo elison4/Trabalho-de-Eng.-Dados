@@ -491,9 +491,9 @@ dt = DeltaTable.forPath(spark, "tabela_delta_trabalho")</p>
 Exclusão (DELETE)
 Removemos o veículo da marca Ford da nossa base de dados ativa.</p>
 <p>Python
-dt.delete("id = 3")
-3. Auditoria e Time Travel (Diferencial Delta)
-Um dos grandes recursos utilizados foi o Time Travel, que permite visualizar estados anteriores da tabela.</p>
+dt.delete("id = 3")</p>
+<h2 id="3-auditoria-e-time-travel-diferencial-delta">3. Auditoria e Time Travel (Diferencial Delta)</h2>
+<p>Um dos grandes recursos utilizados foi o Time Travel, que permite visualizar estados anteriores da tabela.</p>
 <p>Verificando o Histórico
 O comando history() permite auditar quem fez o quê e quando:</p>
 <p>Python
