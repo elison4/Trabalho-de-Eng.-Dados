@@ -457,33 +457,33 @@
 <p>O <strong>Apache Iceberg</strong> é um formato de tabela aberto de alta performance para grandes conjuntos de dados analíticos. Diferente de formatos tradicionais, o Iceberg rastreia arquivos individuais em vez de diretórios, permitindo recursos avançados de isolamento e atomicidade.</p>
 <h2 id="1-estrutura-e-definicao-ddl">1. Estrutura e Definição (DDL)</h2>
 <p>A tabela foi criada utilizando o catálogo <code>local</code> definido no Spark, garantindo que o esquema seja rigidamente seguido.</p>
-<p><code>sql
-CREATE TABLE IF NOT EXISTS local.db_projeto.tabela_jogos (
+<pre><code class="language-sql">CREATE TABLE IF NOT EXISTS local.db_projeto.tabela_jogos (
     id bigint,
     nome string,
     genero string,
     ano int
 ) 
-USING iceberg;</code></p>
+USING iceberg;
+</code></pre>
 <h2 id="2-manipulacao-de-dados-e-consistencia-dml">2. Manipulação de Dados e Consistência (DML)</h2>
 <p>O Iceberg permite operações de escrita simultâneas seguras. No projeto, validamos o fluxo completo:</p>
 <p>Inserção: Carga inicial de títulos (FIFA, God of War, Minecraft).</p>
 <p>Atualização: Correção do gênero do jogo 'Minecraft' para 'Construção'.</p>
 <p>Exclusão: Remoção do registro do jogo 'FIFA 23'.</p>
-<p><code>SQL
+<p>SQL
 -- Exemplo de atualização de registro único
 UPDATE local.db_projeto.tabela_jogos 
 SET genero = 'Construção' 
-WHERE id = 3;</code></p>
+WHERE id = 3;</p>
 <h2 id="3-gestao-de-metadados-e-auditoria">3. Gestão de Metadados e Auditoria</h2>
 <p>O grande diferencial do Iceberg é a forma como ele gerencia o estado da tabela através de Snapshots.</p>
 <p>Inspeção de Snapshots
 Cada operação de escrita gera um novo snapshot_id. Isso permite auditoria total:</p>
-<p><code>SQL
+<p>SQL
 SELECT committed_at, snapshot_id, operation 
 FROM local.db_projeto.tabela_jogos.snapshots;
 Otimização e Limpeza (Maintenance)
-Diferente do Delta, no Iceberg é comum realizarmos a manutenção de snapshots e a expiração de arquivos antigos para economizar espaço e melhorar a performance de leitura:</code></p>
+Diferente do Delta, no Iceberg é comum realizarmos a manutenção de snapshots e a expiração de arquivos antigos para economizar espaço e melhorar a performance de leitura:```</p>
 <p>Python</p>
 <h1 id="exemplo-de-expiracao-de-snapshots-antigos-via-pyspark">Exemplo de expiração de snapshots antigos via PySpark</h1>
 <p>spark.sql("CALL local.system.expire_snapshots('db_projeto.tabela_jogos')")</p>
