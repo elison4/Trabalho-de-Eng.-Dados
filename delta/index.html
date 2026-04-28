@@ -373,6 +373,17 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#3-auditoria-e-time-travel-diferencial-delta" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Auditoria e Time Travel (Diferencial Delta)
+      
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -446,6 +457,17 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#3-auditoria-e-time-travel-diferencial-delta" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Auditoria e Time Travel (Diferencial Delta)
+      
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -476,39 +498,50 @@
 <p>Abaixo, os comandos executados via PySpark para manipulação da tabela:</p>
 <h3 id="insercao-inicial">Inserção Inicial</h3>
 <p>Os dados foram carregados inicialmente com modelos como Toyota Corolla, Honda Civic e Ford Focus.</p>
-<p>```python</p>
-<h1 id="escrita-inicial-em-formato-delta">Escrita inicial em formato Delta</h1>
-<p>df_carros.write.format("delta").mode("overwrite").save("../tabela_delta_trabalho")
+<pre><code class="language-python"># Escrita inicial em formato Delta
+df_carros.write.format(&quot;delta&quot;).mode(&quot;overwrite&quot;).save(&quot;../tabela_delta_trabalho&quot;)
 Atualização (UPDATE)
-Nesta etapa, alteramos o modelo do veículo com id = 1 para uma versão mais específica.</p>
-<p>Python
+Nesta etapa, alteramos o modelo do veículo com id = 1 para uma versão mais específica.
+```sql
 from delta.tables import *
-dt = DeltaTable.forPath(spark, "tabela_delta_trabalho")</p>
-<p>dt.update(
-    condition="id = 1", 
-    set={"modelo": "'Corolla Híbrido'"}
+dt = DeltaTable.forPath(spark, &quot;tabela_delta_trabalho&quot;)
+
+dt.update(
+    condition=&quot;id = 1&quot;, 
+    set={&quot;modelo&quot;: &quot;'Corolla Híbrido'&quot;}
 )
-Exclusão (DELETE)
+</code></pre>
+<p>Exclusão (DELETE)
 Removemos o veículo da marca Ford da nossa base de dados ativa.</p>
-<p>Python
-dt.delete("id = 3")</p>
+<pre><code class="language-sql">dt.delete(&quot;id = 3&quot;)
+</code></pre>
+<hr />
 <h2 id="3-auditoria-e-time-travel-diferencial-delta">3. Auditoria e Time Travel (Diferencial Delta)</h2>
 <p>Um dos grandes recursos utilizados foi o Time Travel, que permite visualizar estados anteriores da tabela.</p>
 <p>Verificando o Histórico
 O comando history() permite auditar quem fez o quê e quando:</p>
-<p>Python
-dt.history().select("version", "timestamp", "operation").show()
-Consultando Versões Passadas
+<pre><code class="language-sql">dt.history().select(&quot;version&quot;, &quot;timestamp&quot;, &quot;operation&quot;).show()
+</code></pre>
+<p>Consultando Versões Passadas
 Conseguimos recuperar os dados exatamente como estavam antes das alterações de Update e Delete:</p>
 <p>Python</p>
 <h1 id="acessando-a-versao-1-antes-da-limpeza-dos-dados">Acessando a versão 1 (Antes da limpeza dos dados)</h1>
-<p>df_passado = spark.read.format("delta") \
-    .option("versionAsOf", 1) \
-    .load("tabela_delta_trabalho")
-Benefícios Observados
-Confiabilidade: As operações de Delete e Update foram atômicas.</p>
-<p>Auditabilidade: O histórico detalhado permite reverter erros ou conferir mudanças.</p>
-<p>Flexibilidade: O uso do overwriteSchema permitiu evoluir a tabela quando necessário.</p>
+<pre><code class="language-sql">df_passado = spark.read.format(&quot;delta&quot;) \
+    .option(&quot;versionAsOf&quot;, 1) \
+    .load(&quot;tabela_delta_trabalho&quot;)
+</code></pre>
+<h2 id="beneficios-observados">Benefícios Observados</h2>
+<ul>
+<li>
+<p><strong>Confiabilidade</strong>: As operações de Delete e Update foram atômicas.</p>
+</li>
+<li>
+<p><strong>Auditabilidade</strong>: O histórico detalhado permite reverter erros ou conferir mudanças.</p>
+</li>
+<li>
+<p><strong>Flexibilidade</strong>: O uso do overwriteSchema permitiu evoluir a tabela quando necessário.</p>
+</li>
+</ul>
 
 
 
