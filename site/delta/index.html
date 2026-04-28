@@ -373,17 +373,6 @@
   
 </li>
       
-        <li class="md-nav__item">
-  <a href="#3-auditoria-e-time-travel-diferencial-delta" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        3. Auditoria e Time Travel (Diferencial Delta)
-      
-    </span>
-  </a>
-  
-</li>
-      
     </ul>
   
 </nav>
@@ -457,17 +446,6 @@
   
 </li>
       
-        <li class="md-nav__item">
-  <a href="#3-auditoria-e-time-travel-diferencial-delta" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        3. Auditoria e Time Travel (Diferencial Delta)
-      
-    </span>
-  </a>
-  
-</li>
-      
     </ul>
   
 </nav>
@@ -498,12 +476,12 @@
 <p>Abaixo, os comandos executados via PySpark para manipulação da tabela:</p>
 <h3 id="insercao-inicial">Inserção Inicial</h3>
 <p>Os dados foram carregados inicialmente com modelos como Toyota Corolla, Honda Civic e Ford Focus.</p>
-<pre><code class="language-python"># Escrita inicial em formato Delta
-df_carros.write.format(&quot;delta&quot;).mode(&quot;overwrite&quot;).save(&quot;../tabela_delta_trabalho&quot;)
+<h1 id="escrita-inicial-em-formato-delta">Escrita inicial em formato Delta</h1>
+<pre><code class="language-sql">df_carros.write.format(&quot;delta&quot;).mode(&quot;overwrite&quot;).save(&quot;../tabela_delta_trabalho&quot;)
 Atualização (UPDATE)
-Nesta etapa, alteramos o modelo do veículo com id = 1 para uma versão mais específica.
-```sql
-from delta.tables import *
+</code></pre>
+<p>Nesta etapa, alteramos o modelo do veículo com id = 1 para uma versão mais específica.</p>
+<pre><code class="language-sql">from delta.tables import *
 dt = DeltaTable.forPath(spark, &quot;tabela_delta_trabalho&quot;)
 
 dt.update(
