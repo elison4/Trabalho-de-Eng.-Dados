@@ -30,7 +30,7 @@ Para atender aos requisitos de reprodutibilidade, o ambiente foi isolado utiliza
 
 ### Passo 1: Clonar e Preparar o Repositório
 ```bash
-git clone [https://github.com/elison4/Trabalho-de-Eng.-Dados.git](https://github.com/elison4/Trabalho-de-Eng.-Dados.git)
+git clone https://github.com/elison4/Trabalho-de-Eng.-Dados.git
 cd Trabalho-de-Eng.-Dados
 ```
 Passo 2: Instalação via Poetry
