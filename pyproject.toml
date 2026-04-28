@@ -5,7 +5,7 @@ description = "Trabalho de Engenharia de Dados - Spark, Delta e Iceberg"
 authors = [
     {name = "Elison", email = "elison@example.com"}
 ]
-requires-python = ">=3.12,<4.0"
+requires-python =">=3.12,<3.13"
 dependencies = [
     "pyspark==3.5.3",
     "delta-spark==3.1.0",

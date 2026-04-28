@@ -1,0 +1,9 @@
+site_name: Projeto Engenharia de Dados - Elison Miller e Guilherme Cesarino
+theme:
+  name: material
+
+nav:
+  - 'Contextualização': index.md
+  - 'Apache Spark': pyspark.md
+  - 'Apache Iceberg': iceberg.md
+  - 'Delta Lake': delta.md
