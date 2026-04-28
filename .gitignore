@@ -1,0 +1,27 @@
+# Ambientes Virtuais (Essencial ignorar para não subir gigabytes de arquivos)
+pyspark_env/
+.venv/
+venv/
+env/
+
+# Arquivos do Jupyter e Python
+.ipynb_checkpoints/
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Logs e Metadados do Spark (Arquivos temporários)
+derby.log
+metastore_db/
+spark-warehouse/
+*.lck
+
+# Pastas de Dados (Melhor ignorar para o GitHub não ficar pesado)
+warehouse_iceberg/
+tabela_delta_trabalho/
+_delta_log/
+*.parquet
+
+# Sistema Operacional
+.DS_Store
+Thumbs.db

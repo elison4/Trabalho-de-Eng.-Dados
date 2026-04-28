@@ -1,0 +1,20 @@
+[project]
+name = "trabalho-eng-dados"
+version = "0.1.0"
+description = "Trabalho de Engenharia de Dados - Spark, Delta e Iceberg"
+authors = [
+    {name = "Elison", email = "elison@example.com"}
+]
+requires-python = ">=3.12,<4.0"
+dependencies = [
+    "pyspark==3.5.3",
+    "delta-spark==3.1.0",
+    "pyiceberg==0.8.0",
+    "ipykernel>=6.0.0",
+    "jupyterlab>=4.0.0",
+    "findspark>=2.0.1"
+]
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
