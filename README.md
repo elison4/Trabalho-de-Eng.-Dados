@@ -41,13 +41,13 @@ Abra o terminal e execute os comandos para baixar o código e entrar na pasta ra
 ```bash
 git clone [https://github.com/elison4/Trabalho-de-Eng.-Dados.git](https://github.com/elison4/Trabalho-de-Eng.-Dados.git)
 cd Trabalho-de-Eng.-Dados
-Passo 2: Instalação Automática via Poetry
+### Passo 2: Instalação Automática via Poetry
 O Poetry irá ler o arquivo poetry.lock para instalar as bibliotecas exatamente como foram usadas no desenvolvimento, evitando conflitos de versão.
 
 Bash
 # Instala o ambiente virtual e todas as libs (PySpark, Delta, Iceberg)
 poetry install
-Passo 3: Ativação do Ambiente Virtual
+### Passo 3: Ativação do Ambiente Virtual
 Para garantir que o terminal use o Python do projeto e não o do sistema:
 
 Bash
@@ -55,7 +55,7 @@ Bash
 poetry shell
 Dica: Você verá o nome do ambiente (ex: .venv) aparecer no início da linha do terminal.
 
-Passo 4: Inicialização do Jupyter
+### Passo 4: Inicialização do Jupyter
 Com o ambiente ativo, execute o comando abaixo para abrir os notebooks:
 
 Bash
@@ -79,5 +79,5 @@ Implementação de tabelas Apache Iceberg.
 
 Testes de evolução de esquema e snapshots.
 
-⚙️ Configuração Técnica (Interna)
+### ⚙️ Configuração Técnica (Interna)
 As configurações de spark.jars.packages necessárias para o funcionamento foram incluídas diretamente nos notebooks para facilitar a execução, apontando para os repositórios Maven oficiais do Delta e Iceberg.
