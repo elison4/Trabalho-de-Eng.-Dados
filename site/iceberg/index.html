@@ -493,15 +493,9 @@ Python</p>
 <hr />
 <h2 id="4-por-que-usamos-iceberg-neste-cenario">4. Por que usamos Iceberg neste cenário?</h2>
 <ul>
-<li>
-<p><strong>Schema Evolution</strong>: Se precisarmos adicionar uma coluna "Plataforma" no futuro, o Iceberg faz isso sem precisar reescrever os dados antigos.</p>
-</li>
-<li>
-<p><strong>Partition Evolution</strong>: Permite mudar a forma como os dados são particionados sem quebrar as consultas existentes.</p>
-</li>
-<li>
-<p><strong>Hidden Partitioning</strong>: O Spark/Iceberg decide automaticamente como organizar os dados para máxima performance.</p>
-</li>
+<li><strong>Schema Evolution:</strong> Se precisarmos adicionar uma coluna "Plataforma" no futuro, o Iceberg faz isso sem precisar reescrever os dados antigos.</li>
+<li><strong>Partition Evolution:</strong> Permite mudar a forma como os dados são particionados sem quebrar as consultas existentes.</li>
+<li><strong>Hidden Partitioning:</strong> O Spark/Iceberg decide automaticamente como organizar os dados para máxima performance.</li>
 </ul>
 
 

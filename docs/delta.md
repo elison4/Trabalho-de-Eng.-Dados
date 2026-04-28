@@ -18,10 +18,12 @@ Abaixo, os comandos executados via PySpark para manipulação da tabela:
 ### Inserção Inicial
 Os dados foram carregados inicialmente com modelos como Toyota Corolla, Honda Civic e Ford Focus.
 
-```python
+
 # Escrita inicial em formato Delta
+```sql
 df_carros.write.format("delta").mode("overwrite").save("../tabela_delta_trabalho")
 Atualização (UPDATE)
+```
 Nesta etapa, alteramos o modelo do veículo com id = 1 para uma versão mais específica.
 ```sql
 from delta.tables import *
