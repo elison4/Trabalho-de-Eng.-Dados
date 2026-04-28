@@ -441,8 +441,8 @@
 <hr />
 <h2 id="exemplo-de-integracao-multi-formato">Exemplo de Integração Multi-Formato</h2>
 <p>O código abaixo exemplifica como o PySpark foi utilizado para processar os dois cenários distintos do trabalho:</p>
-<p>```python
-from pyspark.sql import SparkSession</p>
+<pre><code class="language-sql">from pyspark.sql import SparkSession
+</code></pre>
 <h1 id="1-operacao-com-delta-lake-uso-de-dataframe-api">1. Operação com Delta Lake (Uso de DataFrame API)</h1>
 <p>dados_carros = [(1, "Toyota", "Corolla", 2020)]
 df_carros = spark.createDataFrame(dados_carros, ["id", "marca", "modelo", "ano"])</p>
@@ -451,8 +451,8 @@ df_carros = spark.createDataFrame(dados_carros, ["id", "marca", "modelo", "ano"]
 <p>spark.sql("""
     INSERT INTO local.db_projeto.tabela_jogos VALUES
     (1, 'FIFA 23', 'Esporte', 2023)
-""")
-Benefícios da Arquitetura Unificada
+""")</p>
+<p>Benefícios da Arquitetura Unificada
 Ao utilizar o PySpark como motor central, garantimos:</p>
 <p>Escalabilidade: O processamento pode ser distribuído em clusters caso o volume de carros ou jogos cresça.</p>
 <p>Flexibilidade: O Spark permite transitar dados entre Delta e Iceberg conforme a necessidade técnica do projeto.</p>
