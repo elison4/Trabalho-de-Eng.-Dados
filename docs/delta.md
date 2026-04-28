@@ -61,7 +61,5 @@ df_passado = spark.read.format("delta") \
 
 ## Benefícios Observados
 * **Confiabilidade**: As operações de Delete e Update foram atômicas.
-
 * **Auditabilidade**: O histórico detalhado permite reverter erros ou conferir mudanças.
-
 * **Flexibilidade**: O uso do overwriteSchema permitiu evoluir a tabela quando necessário.

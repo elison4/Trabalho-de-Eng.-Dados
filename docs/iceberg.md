@@ -55,8 +55,6 @@ spark.sql("CALL local.system.expire_snapshots('db_projeto.tabela_jogos')")
 ---
 
 ## 4. Por que usamos Iceberg neste cenário?
-* **Schema Evolution**: Se precisarmos adicionar uma coluna "Plataforma" no futuro, o Iceberg faz isso sem precisar reescrever os dados antigos.
-
-* **Partition Evolution**: Permite mudar a forma como os dados são particionados sem quebrar as consultas existentes.
-
-* **Hidden Partitioning**: O Spark/Iceberg decide automaticamente como organizar os dados para máxima performance.
+* **Schema Evolution:** Se precisarmos adicionar uma coluna "Plataforma" no futuro, o Iceberg faz isso sem precisar reescrever os dados antigos.
+* **Partition Evolution:** Permite mudar a forma como os dados são particionados sem quebrar as consultas existentes.
+* **Hidden Partitioning:** O Spark/Iceberg decide automaticamente como organizar os dados para máxima performance.

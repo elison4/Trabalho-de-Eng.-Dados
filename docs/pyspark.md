@@ -14,8 +14,9 @@ Neste ecossistema, o Spark atua como a camada de computação, permitindo:
 
 O código abaixo exemplifica como o PySpark foi utilizado para processar os dois cenários distintos do trabalho:
 
-```python
+```sql
 from pyspark.sql import SparkSession
+```
 
 # 1. Operação com Delta Lake (Uso de DataFrame API)
 dados_carros = [(1, "Toyota", "Corolla", 2020)]
@@ -24,10 +25,12 @@ df_carros = spark.createDataFrame(dados_carros, ["id", "marca", "modelo", "ano"]
 df_carros.write.format("delta").mode("overwrite").save("../tabela_delta_trabalho")
 
 # 2. Operação com Apache Iceberg (Uso de Spark SQL)
+
 spark.sql("""
     INSERT INTO local.db_projeto.tabela_jogos VALUES
     (1, 'FIFA 23', 'Esporte', 2023)
 """)
+
 Benefícios da Arquitetura Unificada
 Ao utilizar o PySpark como motor central, garantimos:
 
