@@ -1,51 +1,59 @@
-# Apache Iceberg
+# Apache Iceberg - Catálogo de Jogos
 
-O **Apache Iceberg** é um formato de tabela aberto de alto desempenho para enormes tabelas analíticas. Ele permite que o SQL trabalhe com grandes volumes de dados de forma eficiente, oferecendo funcionalidades que antes só existiam em bases de dados tradicionais.
+O **Apache Iceberg** foi implementado para gerenciar um catálogo de jogos eletrônicos. Este formato de tabela aberto foi escolhido por sua eficiência em lidar com grandes volumes de metadados e por oferecer recursos avançados de auditoria.
 
-## O que é o Apache Iceberg?
-Diferente dos formatos comuns, o Iceberg foca-se na gestão de ficheiros de metadados, o que permite:
-- **Time Travel:** Consultar versões anteriores dos dados.
-- **Schema Evolution:** Alterar colunas sem reescrever toda a tabela.
-- **Partition Evolution:** Mudar a forma como os dados são organizados sem quebrar as consultas.
-
----
-
-## Demonstração Prática (Cenário de Vendas)
-
-Abaixo, apresentamos os comandos necessários para gerir uma tabela de produtos utilizando o motor do Spark.
-
-### 1. Criação da Tabela (DDL)
-Aqui definimos a estrutura da nossa tabela dentro do catálogo Iceberg.
+## 1. Estrutura da Tabela (DDL)
+A tabela `tabela_jogos` foi criada no catálogo local com a seguinte estrutura:
+- **id**: Identificador único do jogo.
+- **nome**: Título do jogo.
+- **genero**: Categoria/Gênero (Ex: Ação, Esporte).
+- **ano**: Ano de lançamento.
 
 ```sql
-CREATE TABLE local.db.produtos_iceberg (
-    id_produto INT,
-    nome_produto STRING,
-    categoria STRING,
-    preco_unitario DOUBLE
+CREATE TABLE IF NOT EXISTS local.db_projeto.tabela_jogos (
+    id bigint,
+    nome string,
+    genero string,
+    ano int
 ) 
 USING iceberg;
+2. Manipulação de Dados (DML)
+Utilizamos comandos SQL padrão para gerenciar o ciclo de vida dos dados:
 
-2. Inserção de Dados (INSERT)
-Adicionando novos itens ao nosso catálogo de produtos.
-
-SQL
-INSERT INTO local.db.produtos_iceberg VALUES 
-(101, 'Teclado Mecânico', 'Periféricos', 250.00),
-(102, 'Monitor 4K', 'Hardware', 1800.00),
-(103, 'Mouse Gamer', 'Periféricos', 150.00);
-3. Atualização de Dados (UPDATE)
-Corrigindo o preço de um produto específico.
+Inserção de Dados
+Populamos a tabela com títulos populares para validar a persistência.
 
 SQL
-UPDATE local.db.produtos_iceberg 
-SET preco_unitario = 230.00 
-WHERE id_produto = 101;
-4. Exclusão de Dados (DELETE)
-Removendo um produto que saiu de linha.
+INSERT INTO local.db_projeto.tabela_jogos VALUES
+(1, 'FIFA 23', 'Esporte', 2023),
+(2, 'God of War', 'Ação', 2022),
+(3, 'Minecraft', 'Sandbox', 2011);
+Atualização (UPDATE)
+Realizamos a correção do gênero do jogo 'Minecraft' de 'Sandbox' para 'Construção'.
 
 SQL
-DELETE FROM local.db.produtos_iceberg 
-WHERE id_produto = 103;
-Porquê usar Iceberg com Spark?
-A integração do PySpark com Iceberg garante que as operações acima sejam atómicas. Isso significa que, se uma atualização falhar a meio, a tabela não fica corrompida; ela volta ao estado anterior (Transações ACID).
+UPDATE local.db_projeto.tabela_jogos 
+SET genero = 'Construção' 
+WHERE id = 3;
+Exclusão (DELETE)
+Removemos o registro do jogo 'FIFA 23' (ID 1) da tabela ativa.
+
+SQL
+DELETE FROM local.db_projeto.tabela_jogos WHERE id = 1;
+3. Gestão de Snapshots e Histórico
+Uma das principais vantagens do Iceberg é a capacidade de consultar os Snapshots, que registram cada alteração feita na tabela.
+
+Verificando Snapshots
+Através da tabela técnica de snapshots, conseguimos identificar o momento exato de cada operação (append, delete, overwrite):
+
+SQL
+SELECT committed_at, snapshot_id, operation 
+FROM local.db_projeto.tabela_jogos.snapshots 
+ORDER BY committed_at ASC;
+Histórico de Versões
+O Iceberg mantém um histórico que permite rastrear a linhagem dos dados ao longo do tempo:
+
+SQL
+SELECT * FROM local.db_projeto.tabela_jogos.history;
+Conclusão Técnica
+A implementação com Iceberg demonstrou ser extremamente eficiente para operações de linha (Update/Delete) em tabelas analíticas, garantindo a integridade dos dados e permitindo uma rastreabilidade completa via Snapshots, essencial para ambientes de produção.

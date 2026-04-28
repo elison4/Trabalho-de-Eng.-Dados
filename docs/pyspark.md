@@ -1,53 +1,38 @@
 # Apache Spark (PySpark)
 
-O **Apache Spark** é um motor de processamento de dados unificado, projetado para ser rápido e lidar com grandes volumes de informações (Big Data) de forma distribuída. O **PySpark** é a biblioteca que permite utilizar o Spark através da linguagem Python.
+O **Apache Spark** é o motor de processamento distribuído que sustenta este projeto. Através da biblioteca **PySpark**, conseguimos manipular dados em larga escala e integrá-los nativamente com os formatos **Delta Lake** e **Apache Iceberg**.
 
-## Por que utilizar o PySpark?
-Diferente do Python tradicional (como o Pandas), que processa dados na memória de apenas uma máquina, o PySpark distribui o trabalho entre vários nós de um cluster, permitindo processar Petabytes de dados com eficiência.
-
-
-
-[Image of Apache Spark architecture overview]
-
-
-## Principais Componentes do ecossistema Spark:
-* **Spark SQL:** Permite executar consultas estruturadas usando SQL ou a API de DataFrames.
-* **Spark Streaming:** Processamento de dados em tempo real.
-* **MLlib:** Biblioteca escalável de Machine Learning.
-* **GraphX:** Processamento de gráficos e redes.
+## O Papel do Spark no Projeto
+Neste ecossistema, o Spark atua como a camada de computação, permitindo:
+1. **Abstração de Dados:** Uso de DataFrames para manipulação de listas complexas.
+2. **Execução SQL:** Interação direta com catálogos Iceberg através de comandos ANSI SQL.
+3. **Multi-Formato:** Capacidade de ler e escrever em diferentes formatos de tabela no mesmo pipeline.
 
 ---
 
-## Exemplo de Fluxo de Trabalho no Projeto
+## Exemplo de Integração Multi-Formato
 
-No contexto deste trabalho, o PySpark atua como o motor que lê os dados brutos e os escreve nos formatos **Delta** e **Iceberg**.
-
-### Exemplo de código para leitura e escrita:
+O código abaixo exemplifica como o PySpark foi utilizado para processar os dois cenários distintos do trabalho:
 
 ```python
 from pyspark.sql import SparkSession
 
-# Iniciando a sessão do Spark configurada para Delta/Iceberg
-spark = SparkSession.builder \
-    .appName("TrabalhoEngDados") \
-    .get_factory()
+# 1. Operação com Delta Lake (Uso de DataFrame API)
+dados_carros = [(1, "Toyota", "Corolla", 2020)]
+df_carros = spark.createDataFrame(dados_carros, ["id", "marca", "modelo", "ano"])
 
-# 1. Lendo uma fonte de dados (exemplo CSV)
-df = spark.read.csv("dados_vendas.csv", header=True, inferSchema=True)
+df_carros.write.format("delta").mode("overwrite").save("../tabela_delta_trabalho")
 
-# 2. Transformação simples: Filtrando vendas acima de 100 reais
-df_filtrado = df.filter(df["valor_total"] > 100)
+# 2. Operação com Apache Iceberg (Uso de Spark SQL)
+spark.sql("""
+    INSERT INTO local.db_projeto.tabela_jogos VALUES
+    (1, 'FIFA 23', 'Esporte', 2023)
+""")
+Benefícios da Arquitetura Unificada
+Ao utilizar o PySpark como motor central, garantimos:
 
-# 3. Exibindo os dados processados
-df_filtrado.show()
+Escalabilidade: O processamento pode ser distribuído em clusters caso o volume de carros ou jogos cresça.
 
-# 4. Salvando o resultado em formato Delta
-df_filtrado.write.format("delta").save("/mnt/delta/vendas_processadas")
-Benefícios para a Engenharia de Dados
-O uso do PySpark neste projeto garante que o pipeline de dados seja:
+Flexibilidade: O Spark permite transitar dados entre Delta e Iceberg conforme a necessidade técnica do projeto.
 
-Escalável: Pode crescer conforme o volume de dados aumenta.
-
-Versátil: Suporta integração com diversos formatos de arquivos e bancos de dados.
-
-Rápido: Utiliza processamento em memória para otimizar a performance.
+Performance: O uso do otimizador Catalyst do Spark garante que as operações de JOIN e FILTRO sejam executadas da forma mais rápida possível em ambos os formatos.
