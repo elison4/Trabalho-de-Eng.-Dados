@@ -37,7 +37,8 @@ Removemos o veículo da marca Ford da nossa base de dados ativa.
 
 Python
 dt.delete("id = 3")
-3. Auditoria e Time Travel (Diferencial Delta)
+
+## 3. Auditoria e Time Travel (Diferencial Delta)
 Um dos grandes recursos utilizados foi o Time Travel, que permite visualizar estados anteriores da tabela.
 
 Verificando o Histórico

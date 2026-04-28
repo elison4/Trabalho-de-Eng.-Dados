@@ -474,7 +474,6 @@ USING iceberg;
 UPDATE local.db_projeto.tabela_jogos 
 SET genero = 'Construção' 
 WHERE id = 3;
-
 </code></pre>
 <h2 id="3-gestao-de-metadados-e-auditoria">3. Gestão de Metadados e Auditoria</h2>
 <p>O grande diferencial do Iceberg é a forma como ele gerencia o estado da tabela através de Snapshots.</p>
@@ -482,10 +481,10 @@ WHERE id = 3;
 Cada operação de escrita gera um novo snapshot_id. Isso permite auditoria total:</p>
 <pre><code class="language-SQL">SELECT committed_at, snapshot_id, operation 
 FROM local.db_projeto.tabela_jogos.snapshots;
-Otimização e Limpeza (Maintenance)
-Diferente do Delta, no Iceberg é comum realizarmos a manutenção de snapshots e a expiração de arquivos antigos para economizar espaço e melhorar a performance de leitura:
 </code></pre>
-<p>Python</p>
+<p>Otimização e Limpeza (Maintenance)
+Diferente do Delta, no Iceberg é comum realizarmos a manutenção de snapshots e a expiração de arquivos antigos para economizar espaço e melhorar a performance de leitura:
+Python</p>
 <h1 id="exemplo-de-expiracao-de-snapshots-antigos-via-pyspark">Exemplo de expiração de snapshots antigos via PySpark</h1>
 <p>spark.sql("CALL local.system.expire_snapshots('db_projeto.tabela_jogos')")</p>
 <h2 id="4-por-que-usamos-iceberg-neste-cenario">4. Por que usamos Iceberg neste cenário?</h2>

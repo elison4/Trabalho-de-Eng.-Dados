@@ -14,6 +14,7 @@ CREATE TABLE IF NOT EXISTS local.db_projeto.tabela_jogos (
 ) 
 USING iceberg;
 ```
+---
 
 ## 2. Manipulação de Dados e Consistência (DML)
 O Iceberg permite operações de escrita simultâneas seguras. No projeto, validamos o fluxo completo:
@@ -24,12 +25,13 @@ Atualização: Correção do gênero do jogo 'Minecraft' para 'Construção'.
 
 Exclusão: Remoção do registro do jogo 'FIFA 23'.
 
-```SQL
+```sql
 -- Exemplo de atualização de registro único
 UPDATE local.db_projeto.tabela_jogos 
 SET genero = 'Construção' 
 WHERE id = 3;
 ```
+---
 
 ## 3. Gestão de Metadados e Auditoria
 O grande diferencial do Iceberg é a forma como ele gerencia o estado da tabela através de Snapshots.
@@ -37,7 +39,7 @@ O grande diferencial do Iceberg é a forma como ele gerencia o estado da tabela 
 Inspeção de Snapshots
 Cada operação de escrita gera um novo snapshot_id. Isso permite auditoria total:
 
-```SQL
+```sql
 SELECT committed_at, snapshot_id, operation 
 FROM local.db_projeto.tabela_jogos.snapshots;
 ```
@@ -47,7 +49,10 @@ Diferente do Delta, no Iceberg é comum realizarmos a manutenção de snapshots 
 Python
 
 # Exemplo de expiração de snapshots antigos via PySpark
+``` sql
 spark.sql("CALL local.system.expire_snapshots('db_projeto.tabela_jogos')")
+```
+---
 
 ## 4. Por que usamos Iceberg neste cenário?
 Schema Evolution: Se precisarmos adicionar uma coluna "Plataforma" no futuro, o Iceberg faz isso sem precisar reescrever os dados antigos.
