@@ -23,8 +23,7 @@ Os dados foram carregados inicialmente com modelos como Toyota Corolla, Honda Ci
 df_carros.write.format("delta").mode("overwrite").save("../tabela_delta_trabalho")
 Atualização (UPDATE)
 Nesta etapa, alteramos o modelo do veículo com id = 1 para uma versão mais específica.
-
-Python
+```sql
 from delta.tables import *
 dt = DeltaTable.forPath(spark, "tabela_delta_trabalho")
 
@@ -32,31 +31,37 @@ dt.update(
     condition="id = 1", 
     set={"modelo": "'Corolla Híbrido'"}
 )
+```
 Exclusão (DELETE)
 Removemos o veículo da marca Ford da nossa base de dados ativa.
 
-Python
+```sql
 dt.delete("id = 3")
-
+```
+---
 ## 3. Auditoria e Time Travel (Diferencial Delta)
 Um dos grandes recursos utilizados foi o Time Travel, que permite visualizar estados anteriores da tabela.
 
 Verificando o Histórico
 O comando history() permite auditar quem fez o quê e quando:
 
-Python
+```sql
 dt.history().select("version", "timestamp", "operation").show()
+```
 Consultando Versões Passadas
 Conseguimos recuperar os dados exatamente como estavam antes das alterações de Update e Delete:
 
 Python
 # Acessando a versão 1 (Antes da limpeza dos dados)
+```sql
 df_passado = spark.read.format("delta") \
     .option("versionAsOf", 1) \
     .load("tabela_delta_trabalho")
-Benefícios Observados
-Confiabilidade: As operações de Delete e Update foram atômicas.
+```
 
-Auditabilidade: O histórico detalhado permite reverter erros ou conferir mudanças.
+## Benefícios Observados
+* **Confiabilidade**: As operações de Delete e Update foram atômicas.
 
-Flexibilidade: O uso do overwriteSchema permitiu evoluir a tabela quando necessário.
+* **Auditabilidade**: O histórico detalhado permite reverter erros ou conferir mudanças.
+
+* **Flexibilidade**: O uso do overwriteSchema permitiu evoluir a tabela quando necessário.
